@@ -11,8 +11,8 @@ node {
 	
 	//deploy
 	stage 'Deploy'	
-	withAWSCredential(deploy(file_name, application_name))
-
+	//withAWSCredential(deploy(file_name, application_name))
+	deploy(file_name, application_name)
 }
 
 def withAWSCredential(block){
