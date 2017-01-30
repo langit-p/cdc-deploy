@@ -1,10 +1,4 @@
-
-//AWS Config
-def aws_region = 'ap-southeast-1'
-def aws_access_key = ''
-def aws_secret_key = ''
-
-//Codedeplou Config
+//Codedeploy Config
 def application_name = 'CDC-deploy'
 def file_name = 'langit.zip'
 
