@@ -27,7 +27,7 @@ def withAWSCredential(block){
 def deploy(String key, String applicationName) {
     deployRevisionToS3(key, applicationName)
     deployToCodeDeploy(key)
-	waitDeployment(getDeploymentId())
+	waitDeployment()
 }
 
 def deployRevisionToS3(String key, String applicationName) {
