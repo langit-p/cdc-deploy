@@ -16,7 +16,7 @@ node {
 
 	//call the codedeploy
 	stage 'Deploy'
-	withAWSCredential(deployToCodeDeploy(file_name, application_name))
+	withAWSCredential(deployToCodeDeploy(file_name))
 
 }
 
@@ -27,13 +27,6 @@ def withAWSCredential(block){
                       passwordVariable: 'AWS_SECRET_ACCESS_KEY']]) {
         block()
     }
-}
-
-def deploy(String revisionPrefix, String applicationName) {
-    def key = generateKey(revisionPrefix)
-    deployRevisionToS3(key, applicationName)
-    deployToCodeDeploy(key)
-	waitDeployment(getDeploymentId())
 }
 
 def deployRevisionToS3(String key, String applicationName) {
