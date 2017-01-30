@@ -19,11 +19,12 @@ node {
 	
 	//upload to S3
 	stage 'Upload'	
-	deployRevisionToS3(file_name, application_name)
+	withAWSCredential(deployRevisionToS3(file_name, application_name))
+	
 
 	//call the codedeploy
-	stage 'Deploy'	
-	deployToCodeDeploy(file_name, application_name)
+	stage 'Deploy'
+	withAWSCredential(deployToCodeDeploy(file_name, application_name))
 
 }
 
@@ -66,4 +67,13 @@ def getCodedeployCommand() {
 def getDeploymentId() {
     def matcher = readFile('.deployment_id') =~ 'deploymentId\":\\s\"(.*)\"'
     matcher ? matcher[0][1] : null
+}
+
+def withAWSCredential(block){
+    withCredentials([[$class          : 'UsernamePasswordMultiBinding',
+                      credentialsId   : 'AwsCDC',
+                      usernameVariable: 'AWS_ACCESS_KEY_ID',
+                      passwordVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+        block()
+    }
 }
