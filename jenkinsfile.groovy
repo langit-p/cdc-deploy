@@ -50,7 +50,7 @@ def deployToCodeDeploy(String key) {
 def waitDeployment(){
 	def deploymentId = getDeploymentId()
     sh("aws deploy wait deployment-successful --deployment-id ${deploymentId}")    
-	sh("aws deploy get-deployment --deployment-id ${deployment_id} > .deployment_result") 
+	sh("aws deploy get-deployment --deployment-id ${deploymentId} > .deployment_result") 
 	sh("cat .deployment_result")
 }
 
