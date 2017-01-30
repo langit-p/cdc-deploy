@@ -9,14 +9,9 @@ node {
 	deleteDir()
 	checkout scm
 	
-	//upload to S3
-	stage 'Upload'	
-	withAWSCredential(deployRevisionToS3(file_name, application_name))
-	
-
-	//call the codedeploy
-	stage 'Deploy'
-	withAWSCredential(deployToCodeDeploy(file_name))
+	//deploy
+	stage 'Deploy'	
+	withAWSCredential(deploy(file_name, application_name))
 
 }
 
@@ -27,6 +22,12 @@ def withAWSCredential(block){
                       passwordVariable: 'AWS_SECRET_ACCESS_KEY']]) {
         block()
     }
+}
+
+def deploy(String key, String applicationName) {
+    deployRevisionToS3(key, applicationName)
+    deployToCodeDeploy(key)
+	waitDeployment(getDeploymentId())
 }
 
 def deployRevisionToS3(String key, String applicationName) {
