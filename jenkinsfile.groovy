@@ -3,10 +3,7 @@ def application_name = 'CDC-deploy'
 def file_name = 'langit.zip'
 
 node {
-	env.AWS_ACCESS_KEY_ID = aws_access_key
-    env.AWS_SECRET_ACCESS_KEY = aws_secret_key
-    env.AWS_DEFAULT_REGION = aws_region
-	
+
 	stage 'Checkout'
 	deleteDir()
 	checkout scm
