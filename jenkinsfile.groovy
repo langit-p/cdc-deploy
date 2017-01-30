@@ -20,6 +20,15 @@ node {
 
 }
 
+def withAWSCredential(block){
+    withCredentials([[$class          : 'UsernamePasswordMultiBinding',
+                      credentialsId   : 'CdcAWS',
+                      usernameVariable: 'AWS_ACCESS_KEY_ID',
+                      passwordVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+        block()
+    }
+}
+
 def deploy(String revisionPrefix, String applicationName) {
     def key = generateKey(revisionPrefix)
     deployRevisionToS3(key, applicationName)
@@ -59,13 +68,4 @@ def getCodedeployCommand() {
 def getDeploymentId() {
     def matcher = readFile('.deployment_id') =~ 'deploymentId\":\\s\"(.*)\"'
     matcher ? matcher[0][1] : null
-}
-
-def withAWSCredential(block){
-    withCredentials([[$class          : 'AmazonWebServicesCredentialsBinding',
-                      credentialsId   : 'AwsCDC',
-                      accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                      secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-        block()
-    }
 }
