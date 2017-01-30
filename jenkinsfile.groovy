@@ -3,7 +3,8 @@ def application_name = 'CDC-deploy'
 def file_name = 'langit.zip'
 
 node {
-
+    env.AWS_DEFAULT_REGION = 'ap-southeast-1'
+	
 	stage 'Checkout'
 	deleteDir()
 	checkout scm
